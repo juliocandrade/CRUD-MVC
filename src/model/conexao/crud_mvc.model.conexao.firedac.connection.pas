@@ -30,6 +30,7 @@ type
     Constructor Create;
     destructor Destroy; override;
     class function New : iConexao;
+
     function Connect : TCustomConnection;
     procedure Disconnect;
   end;
@@ -60,6 +61,7 @@ end;
 constructor TConexaoFiredac.Create;
 begin
   FConexao := TFDConnection.Create(nil);
+  ConfigurarConexao;
 end;
 
 destructor TConexaoFiredac.Destroy;

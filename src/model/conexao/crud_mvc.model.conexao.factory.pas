@@ -11,8 +11,8 @@ type
     FConexao : iConexao;
     constructor Create;
   public
-    destructor Destroy; override;
     class function GetInstance : TConexaoFactory;
+
     function Query : iQuery; overload;
   end;
 
@@ -30,12 +30,6 @@ uses
 constructor TConexaoFactory.Create;
 begin
   FConexao := TConexaoFiredac.New;
-end;
-
-destructor TConexaoFactory.Destroy;
-begin
-
-  inherited;
 end;
 
 class function TConexaoFactory.GetInstance: TConexaoFactory;

@@ -20,6 +20,7 @@ type
     constructor Create(aConexao : iConexao);
     destructor Destroy; override;
     class function New(aConexao : iConexao) : iQuery;
+
     function SQL : TStrings;
     function Params (Param : String; Value : Variant) : iQuery;
     function ExecSQL : iQuery;
