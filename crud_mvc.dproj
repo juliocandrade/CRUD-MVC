@@ -102,6 +102,8 @@
             <Form>Form1</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\model\entidades\crud_mvc.model.entidades.pessoa.pas"/>
+        <DCCReference Include="src\model\entidades\crud_mvc.model.entidades.endereco.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
