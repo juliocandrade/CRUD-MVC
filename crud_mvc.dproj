@@ -104,6 +104,10 @@
         </DCCReference>
         <DCCReference Include="src\model\entidades\crud_mvc.model.entidades.pessoa.pas"/>
         <DCCReference Include="src\model\entidades\crud_mvc.model.entidades.endereco.pas"/>
+        <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.interfaces.pas"/>
+        <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.firedac.connection.pas"/>
+        <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.firedac.query.pas"/>
+        <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.factory.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
