@@ -16,7 +16,8 @@ CREATE TABLE enderecos (
 	logradouro varchar(100) NOT NULL,
 	complemento varchar(50),
 	bairro varchar(50) NOT NULL,
-	cidade char(50) NOT NULL,
+	cidade varchar(50) NOT NULL,
+	uf char(2) NOT NULL,
 	created_at datetime default current_timestamp,
 	CONSTRAINT enderecos_pessoa_id_fk FOREIGN KEY (pessoa_id) REFERENCES pessoas(id) ON DELETE CASCADE
 );
