@@ -1,4 +1,4 @@
-unit crud_mvc.dao.interfaces;
+unit crud_mvc.model.dao.interfaces;
 
 interface
 

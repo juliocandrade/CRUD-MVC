@@ -99,7 +99,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="src\view\crud_mvc.view.principal.pas">
-            <Form>Form1</Form>
+            <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\model\entidades\crud_mvc.model.entidades.pessoa.pas"/>
@@ -108,9 +108,23 @@
         <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.firedac.connection.pas"/>
         <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.firedac.query.pas"/>
         <DCCReference Include="src\model\conexao\crud_mvc.model.conexao.factory.pas"/>
-        <DCCReference Include="src\model\dao\crud_mvc.dao.interfaces.pas"/>
-        <DCCReference Include="src\model\dao\crud_mvc.dao.pessoa.pas"/>
-        <DCCReference Include="src\model\dao\crud_mvc.dao.endereco.pas"/>
+        <DCCReference Include="src\model\dao\crud_mvc.model.dao.interfaces.pas"/>
+        <DCCReference Include="src\model\dao\crud_mvc.model.dao.pessoa.pas"/>
+        <DCCReference Include="src\model\dao\crud_mvc.model.dao.endereco.pas"/>
+        <DCCReference Include="src\controller\crud_mvc.controller.interfaces.pas"/>
+        <DCCReference Include="src\controller\crud_mvc.controller.pessoa.pas"/>
+        <DCCReference Include="src\view\crud_mvc.view.style.pas"/>
+        <DCCReference Include="src\view\crud_mvc.view.pessoas.pas">
+            <Form>frmPessoas</Form>
+        </DCCReference>
+        <DCCReference Include="src\model\crud_mvc.model.enumeradores.pas"/>
+        <DCCReference Include="src\utils\crud_mvc.utilitarios.pas"/>
+        <DCCReference Include="src\view\crud_mvc.view.pessoa.endereco.pas">
+            <Form>frmPessoaEndereco</Form>
+        </DCCReference>
+        <DCCReference Include="src\controller\crud_mvc.controller.endereco.pas"/>
+        <DCCReference Include="src\utils\crud_mvc.utilitarios.validators.attributes.pas"/>
+        <DCCReference Include="src\utils\crud_mvc.utilitarios.validators.engine.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

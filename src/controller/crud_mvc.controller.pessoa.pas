@@ -3,7 +3,7 @@ unit crud_mvc.controller.pessoa;
 interface
 uses
   crud_mvc.controller.interfaces,
-  crud_mvc.dao.interfaces,
+  crud_mvc.model.dao.interfaces,
   crud_mvc.model.entidades.pessoa;
 type
   TControllerPessoa = class(TInterfacedObject, iControllerPessoa)
@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  crud_mvc.dao.pessoa;
+  crud_mvc.model.dao.pessoa;
 
 { TControllerPessoa }
 

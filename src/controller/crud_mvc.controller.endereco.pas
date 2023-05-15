@@ -5,7 +5,7 @@ interface
 uses
   crud_mvc.controller.interfaces,
   crud_mvc.model.entidades.endereco,
-  crud_mvc.dao.interfaces;
+  crud_mvc.model.dao.interfaces;
 
 type
   TControllerEndereco = class(TInterfacedObject, iControllerEndereco)
@@ -22,7 +22,7 @@ type
 implementation
 
 uses
-  crud_mvc.dao.endereco;
+  crud_mvc.model.dao.endereco;
 
 { TControllerEndereco }
 

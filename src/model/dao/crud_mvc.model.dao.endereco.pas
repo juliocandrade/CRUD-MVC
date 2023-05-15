@@ -1,11 +1,12 @@
-unit crud_mvc.dao.endereco;
+unit crud_mvc.model.dao.endereco;
 
 interface
 
 uses
-  crud_mvc.dao.interfaces,
+  crud_mvc.model.dao.interfaces,
   crud_mvc.model.conexao.interfaces,
-  crud_mvc.model.entidades.endereco, Data.DB;
+  crud_mvc.model.entidades.endereco,
+  Data.DB;
 type
   TDAOEndereco = class(TInterfacedObject, iDAOEndereco)
   private
@@ -13,6 +14,7 @@ type
     FQuery : iQuery;
     procedure DatasetToEntity;
     function GerarID : String;
+    procedure ValidarEndereco;
   public
     constructor Create(aEntity : TModelEndereco);
     class function New(aEntity : TModelEndereco) : iDAOEndereco;
@@ -28,13 +30,16 @@ type
 implementation
 
 uses
-  System.SysUtils, crud_mvc.model.conexao.factory, crud_mvc.utilitarios;
+  System.SysUtils,
+  crud_mvc.model.conexao.factory,
+  crud_mvc.utilitarios, crud_mvc.utilitarios.validators.engine;
 
 { TDAOEndereco }
 
 function TDAOEndereco.Atualizar: iDAOEndereco;
 begin
   Result := Self;
+  ValidarEndereco;
   try
     FQuery.sql.Clear;
     FQuery.SQL.Add('UPDATE enderecos SET cep = :cep, logradouro = :logradouro, complemento = :complemento, bairro = :bairro ,cidade = :cidade, uf = :uf WHERE id = :id');
@@ -100,9 +105,9 @@ end;
 function TDAOEndereco.Inserir: iDAOEndereco;
 begin
   Result := Self;
+  FEndereco.Id := GerarID;
+  ValidarEndereco;
   try
-    FEndereco.Id := GerarID;
-
     FQuery.sql.Clear;
     FQuery.SQL.Add('INSERT INTO enderecos (id, pessoa_id, cep, logradouro, complemento, bairro, cidade, uf) VALUES (:id, :pessoa_id, :cep, :logradouro, :complemento, :bairro, :cidade, :uf)');
     FQuery.Params('id', FEndereco.Id);
@@ -154,6 +159,15 @@ end;
 class function TDAOEndereco.New(aEntity: TModelEndereco): iDAOEndereco;
 begin
   Result := Self.Create(aEntity);
+end;
+
+procedure TDAOEndereco.ValidarEndereco;
+var
+  LValidateResult : iValidationResult;
+begin
+  LValidateResult := TValidationEngine.PropertyValidation(FEndereco, 'AttributesValidation');
+  LValidateResult.IsValid(true);
+
 end;
 
 end.

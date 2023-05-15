@@ -1,9 +1,9 @@
-unit crud_mvc.dao.pessoa;
+unit crud_mvc.model.dao.pessoa;
 
 interface
 
 uses
-  crud_mvc.dao.interfaces,
+  crud_mvc.model.dao.interfaces,
   crud_mvc.model.conexao.interfaces,
   crud_mvc.model.entidades.pessoa,
   Data.DB;
@@ -14,6 +14,7 @@ type
     FQuery : iQuery;
     procedure DatasetToEntity;
     function GerarID : String;
+    procedure ValidarPessoa;
   public
     constructor Create(aEntity : TModelPessoa);
     class function New(aEntity : TModelPessoa) : iDAOPessoa;
@@ -30,13 +31,17 @@ type
 implementation
 
 uses
-  System.SysUtils, crud_mvc.model.conexao.factory, crud_mvc.utilitarios;
+  System.SysUtils,
+  crud_mvc.model.conexao.factory,
+  crud_mvc.utilitarios,
+  crud_mvc.utilitarios.validators.engine;
 
 { TDAOPessoa }
 
 function TDAOPessoa.Atualizar: iDAOPessoa;
 begin
   Result := Self;
+  ValidarPessoa;
   try
     FQuery.sql.Clear;
     FQuery.SQL.Add('UPDATE pessoas SET nome = :nome, documento = :documento, email = :email, telefone = :telefone WHERE id = :id');
@@ -97,9 +102,9 @@ end;
 function TDAOPessoa.Inserir: iDAOPessoa;
 begin
   Result := Self;
+  FPessoa.Id := GerarID;
+  ValidarPessoa;
   try
-    FPessoa.Id := GerarID;
-
     FQuery.sql.Clear;
     FQuery.SQL.Add('INSERT INTO pessoas (id, nome, documento, email, telefone) VALUES (:id, :nome, :documento, :email, :telefone)');
     FQuery.Params('nome', FPessoa.nome);
@@ -155,6 +160,14 @@ end;
 class function TDAOPessoa.New(aEntity: TModelPessoa): iDAOPessoa;
 begin
   Result := Self.Create(aEntity);
+end;
+
+procedure TDAOPessoa.ValidarPessoa;
+var
+  LValidateResult : iValidationResult;
+begin
+  LValidateResult := TValidationEngine.PropertyValidation(FPessoa, 'AttributesValidation');
+  LValidateResult.IsValid(true);
 end;
 
 end.

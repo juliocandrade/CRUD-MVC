@@ -4,7 +4,7 @@ interface
 
 uses
   crud_mvc.model.entidades.pessoa,
-  crud_mvc.dao.interfaces,
+  crud_mvc.model.dao.interfaces,
   crud_mvc.model.entidades.endereco;
 type
   iControllerPessoa = interface
