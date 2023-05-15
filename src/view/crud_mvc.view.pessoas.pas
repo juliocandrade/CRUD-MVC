@@ -19,7 +19,8 @@ uses
   Vcl.ExtCtrls,
   Vcl.WinXPanels,
   crud_mvc.model.enumeradores,
-  crud_mvc.controller.interfaces, crud_mvc.utilitarios;
+  crud_mvc.controller.interfaces,
+  crud_mvc.utilitarios;
 
 type
   TfrmPessoas = class(TForm)
@@ -43,10 +44,29 @@ type
     btnAlterar: TButton;
     btnExcluir: TButton;
     pnlGrid: TPanel;
-    dbGridCadastro: TDBGrid;
     pnlResume: TPanel;
     lblRegistros: TLabel;
     dsCadastro: TDataSource;
+    pnlDadosPessoa: TPanel;
+    StackPanel1: TStackPanel;
+    Label6: TLabel;
+    edtDocumento: TEdit;
+    Label3: TLabel;
+    edtTelefone: TEdit;
+    StackPanel2: TStackPanel;
+    Label5: TLabel;
+    edtNome: TEdit;
+    Label2: TLabel;
+    edtEmail: TEdit;
+    pnlDadosEndereco: TPanel;
+    Label4: TLabel;
+    pnlDadosEnderecoButtons: TPanel;
+    btnEnderecoExcluir: TButton;
+    btnEnderecoIncluir: TButton;
+    btnEnderecoAlterar: TButton;
+    dbGridEnderecos: TDBGrid;
+    dbGridCadastro: TDBGrid;
+    dsEnderecos: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure bntCancelarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -57,17 +77,25 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure dbGridCadastroDblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnEnderecoIncluirClick(Sender: TObject);
+    procedure btnEnderecoAlterarClick(Sender: TObject);
+    procedure btnEnderecoExcluirClick(Sender: TObject);
+    procedure PnlPrincipalCardChange(Sender: TObject; PrevCard,
+      NextCard: TCard);
   private
     { Private declarations }
-    FController : iControllerPessoa;
+    FControllerPessoa : iControllerPessoa;
+    FControllerEndereco : iControllerEndereco;
     FTypeOperacao : TTypeOperacao;
+    FIDPessoa : String;
     procedure AplicarEstilo;
     procedure LimparCampos;
     procedure Alterar;
-    procedure Incluir;
     procedure Pesquisar;
     procedure PreencherCampos;
     procedure ValidarDatasetVazio(Datasource : TDataSource; TipoOperacao : TTypeOperacao);
+    procedure PesquisarEnderecos;
+    procedure AlterarEndereco;
   public
     { Public declarations }
   end;
@@ -78,7 +106,9 @@ var
 implementation
 
 uses
-  crud_mvc.controller.pessoa, crud_mvc.view.style;
+  crud_mvc.controller.pessoa,
+  crud_mvc.view.style,
+  crud_mvc.controller.endereco, crud_mvc.view.pessoa.endereco;
 
 {$R *.dfm}
 
@@ -89,6 +119,13 @@ begin
   FTypeOperacao := toAlterar;
   lblPage.Caption := 'Alterar Pessoa';
   pnlPrincipal.ActiveCard := cardCadastro;
+end;
+
+procedure TfrmPessoas.AlterarEndereco;
+begin
+  ValidarDatasetVazio(dsEnderecos, toAlterar);
+  frmPessoaEndereco.AlterarEndereco(dsEnderecos.DataSet.FieldByName('id').AsString);
+  PesquisarEnderecos;
 end;
 
 procedure TfrmPessoas.AplicarEstilo;
@@ -102,6 +139,7 @@ end;
 procedure TfrmPessoas.bntCancelarClick(Sender: TObject);
 begin
   pnlPrincipal.ActiveCard := cardPesquisa;
+  Pesquisar;
 end;
 
 procedure TfrmPessoas.btnAlterarClick(Sender: TObject);
@@ -109,8 +147,38 @@ begin
   Alterar;
 end;
 
-procedure TfrmPessoas.btnExcluirClick(Sender: TObject);
+procedure TfrmPessoas.btnEnderecoAlterarClick(Sender: TObject);
 begin
+  AlterarEndereco;
+end;
+
+procedure TfrmPessoas.btnEnderecoExcluirClick(Sender: TObject);
+begin
+  ValidarDatasetVazio(dsEnderecos, toExcluir);
+  if Application.MessageBox('Deseja realmente excluir o endereço ?', 'Excluir pessoa', MB_YESNO + MB_ICONQUESTION) <> mrYes then
+    exit;
+
+  TControllerEndereco.New.DAO.Excluir(dsEnderecos.DataSet.FieldByName('id').AsString);
+  PesquisarEnderecos;
+
+end;
+
+procedure TfrmPessoas.btnEnderecoIncluirClick(Sender: TObject);
+begin
+  frmPessoaEndereco.IncluirEndereco(FIdPessoa);
+  PesquisarEnderecos;
+end;
+
+procedure TfrmPessoas.btnExcluirClick(Sender: TObject);
+var
+  LMensagem : String;
+begin
+  ValidarDatasetVazio(dsCadastro, toExcluir);
+  LMensagem := Format('Deseja realmente excluir a pessoa "%s"?', [dsCadastro.DataSet.FieldByName('nome').AsString]);
+  if Application.MessageBox(PChar(LMensagem), 'Excluir pessoa', MB_YESNO + MB_ICONQUESTION) <> mrYes then
+    exit;
+
+  TControllerPessoa.New.DAO.Excluir(dsCadastro.DataSet.FieldByName('id').AsString);
   Pesquisar;
 end;
 
@@ -121,7 +189,10 @@ end;
 
 procedure TfrmPessoas.btnIncluirClick(Sender: TObject);
 begin
-  Incluir;
+  LimparCampos;
+  FTypeOperacao := toIncluir;
+  lblPage.Caption := 'Incluir Pessoa';
+  pnlPrincipal.ActiveCard := cardCadastro;
 end;
 
 procedure TfrmPessoas.btnPesquisarClick(Sender: TObject);
@@ -130,7 +201,30 @@ begin
 end;
 
 procedure TfrmPessoas.btnSalvarClick(Sender: TObject);
+var
+  LController : iControllerPessoa;
 begin
+  Lcontroller := TcontrollerPessoa.New;
+  LController.Pessoa.ID := FIDPessoa;
+  LController.Pessoa.Nome := edtNome.Text;
+  LController.Pessoa.Documento := edtDocumento.Text;
+  LController.Pessoa.Email := edtEmail.Text;
+  LController.Pessoa.Telefone := edtTelefone.Text;
+
+  case FTypeOperacao of
+  toIncluir:
+  begin
+    LController.DAO.Inserir;
+    FIDPessoa := LController.Pessoa.Id;
+    PesquisarEnderecos;
+    FTypeOperacao := toAlterar;
+    pnlDadosEndereco.Visible := true;
+    exit;
+  end;
+  toAlterar:
+    LController.DAO.Atualizar;
+  end;
+
   pnlPrincipal.ActiveCard := cardPesquisa;
   Pesquisar;
 end;
@@ -144,8 +238,10 @@ procedure TfrmPessoas.FormCreate(Sender: TObject);
 begin
   AplicarEstilo;
   FTypeOperacao := toNull;
-  FController := TControllerPessoa.New;
-  FController.DAO.DataSource(dsCadastro);
+  FControllerPessoa := TControllerPessoa.New;
+  FControllerEndereco := TControllerEndereco.New;
+  FControllerPessoa.DAO.DataSource(dsCadastro);
+  FControllerEndereco.DAO.DataSource(dsEnderecos);
 end;
 
 procedure TfrmPessoas.FormShow(Sender: TObject);
@@ -154,33 +250,50 @@ begin
   Pesquisar;
 end;
 
-procedure TfrmPessoas.Incluir;
-begin
-  LimparCampos;
-  FTypeOperacao := toIncluir;
-  lblPage.Caption := 'Incluir Pessoa';
-  pnlPrincipal.ActiveCard := cardCadastro;
-end;
-
 procedure TfrmPessoas.LimparCampos;
 begin
+  FIDPessoa := '';
   TUtilitarios.LimparCampos(pnlCadastroPrincipal);
 end;
 
 procedure TfrmPessoas.Pesquisar;
 var
-  s : string;
+  Ls : string;
+  LFiltroPesquisar : String;
 begin
-  s := 's';
-  if dsCadastro.DataSet.RecordCount = 1 then
-    s := '';
+  LFiltroPesquisar := TUtilitarios.LikeFind(edtPesquisar.Text, dbGridCadastro);
+  FControllerPessoa.DAO.Listar(LFiltroPesquisar);
 
-  lblRegistros.Caption := Format('%d registro%s encontrado%s', [dsCadastro.DataSet.RecordCount, s, s]);
+  Ls := 's';
+  if dsCadastro.DataSet.RecordCount = 1 then
+    Ls := '';
+
+  lblRegistros.Caption := Format('%d registro%s encontrado%s', [dsCadastro.DataSet.RecordCount, Ls, Ls]);
+end;
+
+procedure TfrmPessoas.PesquisarEnderecos;
+begin
+  FControllerEndereco.DAO.Listar(FIDPessoa)
+end;
+
+procedure TfrmPessoas.PnlPrincipalCardChange(Sender: TObject; PrevCard,
+  NextCard: TCard);
+begin
+  pnlDadosEndereco.Visible := FTypeOperacao = toAlterar;
 end;
 
 procedure TfrmPessoas.PreencherCampos;
+var
+  LController : iControllerPessoa;
 begin
-
+  LController := TControllerPessoa.New;
+  LController.DAO.ListarPorId(dsCadastro.DataSet.FieldByName('id').AsString);
+  FIDPessoa := LController.Pessoa.Id;
+  edtNome.Text := LController.Pessoa.Nome;
+  edtDocumento.Text := LController.Pessoa.Documento;
+  edtEmail.Text := LController.Pessoa.Email;
+  edtTelefone.Text := LController.Pessoa.Telefone;
+  PesquisarEnderecos;
 end;
 
 procedure TfrmPessoas.ValidarDatasetVazio(Datasource: TDataSource;

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
 
 type
-  TForm1 = class(TForm)
+  TfrmPrincipal = class(TForm)
     pnlPrincipal: TPanel;
     pnlMenu: TPanel;
     btnPessoas: TSpeedButton;
@@ -25,7 +25,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmPrincipal: TfrmPrincipal;
 
 implementation
 
@@ -34,7 +34,7 @@ uses
 
 {$R *.dfm}
 
-procedure TForm1.AplicarEstilo;
+procedure TfrmPrincipal.AplicarEstilo;
 begin
   self.Color := COR_FUNDO;
   pnlTop.Color := COR_TEMA;
@@ -42,17 +42,17 @@ begin
   pnlMenu.Color := COR_FUNDO_MENU;
 end;
 
-procedure TForm1.btnPessoasClick(Sender: TObject);
+procedure TfrmPrincipal.btnPessoasClick(Sender: TObject);
 begin
   frmPessoas.Show;
 end;
 
-procedure TForm1.btnSairClick(Sender: TObject);
+procedure TfrmPrincipal.btnSairClick(Sender: TObject);
 begin
   Application.Terminate;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
   AplicarEstilo;
 end;

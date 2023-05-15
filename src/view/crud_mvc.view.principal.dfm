@@ -1,7 +1,7 @@
-object Form1: TForm1
+object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'CRUD-MVC'
   ClientHeight = 623
   ClientWidth = 1010
   Color = clBtnFace
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
   PixelsPerInch = 96
