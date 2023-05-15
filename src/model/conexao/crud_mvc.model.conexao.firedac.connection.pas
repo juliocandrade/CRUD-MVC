@@ -14,6 +14,8 @@ uses
   FireDAC.Phys,
   FireDAC.Phys.SQLite,
   FireDAC.Phys.SQLiteDef,
+  FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef,
   FireDAC.Stan.ExprFuncs,
   FireDAC.Phys.SQLiteWrapper.Stat,
   FireDAC.VCLUI.Wait,
@@ -25,11 +27,13 @@ type
   TConexaoFiredac = class(TinterfacedObject, iConexao)
   private
     FConexao : TFDConnection;
-    procedure ConfigurarConexao;
+    procedure ConfigurarConexao(aConfiguracao : iConexaoConfiguracao);
+    procedure ConfigurarConexaoSQLite(aConfiguracao : iConexaoConfiguracao);
+    procedure ConfigurarConexaoFirebird(aConfiguracao : iConexaoConfiguracao);
   public
-    Constructor Create;
+    Constructor Create(aConfiguracao : iConexaoConfiguracao);
     destructor Destroy; override;
-    class function New : iConexao;
+    class function New(aConfiguracao : iConexaoConfiguracao) : iConexao;
 
     function Connect : TCustomConnection;
     procedure Disconnect;
@@ -40,11 +44,34 @@ uses
 
 { TConexaoFiredac }
 
-procedure TConexaoFiredac.ConfigurarConexao;
+procedure TConexaoFiredac.ConfigurarConexao(aConfiguracao : iConexaoConfiguracao);
 begin
   FConexao.FetchOptions.Mode := fmAll;
-  FConexao.Params.DriverID := 'SQLite';
-  FConexao.Params.Database := '..\..\database\dados.db';
+  if aConfiguracao.DriverID = 'FB' then
+    ConfigurarConexaoFirebird(aConfiguracao)
+  else if aConfiguracao.DriverID = 'SQLite' then
+    ConfigurarConexaoSQLite(aConfiguracao)
+  else
+    raise Exception.Create('Banco de dados não suportado');
+end;
+
+procedure TConexaoFiredac.ConfigurarConexaoFirebird(
+  aConfiguracao: iConexaoConfiguracao);
+begin
+  FConexao.Params.DriverID := aConfiguracao.DriverID;
+  FConexao.Params.Database := aConfiguracao.Database;
+  FConexao.Params.UserName := aConfiguracao.UserName;
+  FConexao.Params.Password := aConfiguracao.Password;
+  FConexao.Params.Add(Format('Protocol=%s', [aConfiguracao.Protocol]));
+  FConexao.Params.Add(Format('Server=%s', [aConfiguracao.Server]));
+  FConexao.Params.Add(Format('Port=%s', [aConfiguracao.Port]));
+end;
+
+procedure TConexaoFiredac.ConfigurarConexaoSQLite(
+  aConfiguracao: iConexaoConfiguracao);
+begin
+  FConexao.Params.DriverID := aConfiguracao.DriverID;
+  FConexao.Params.Database := aConfiguracao.Database;
   FConexao.Params.Add('LockingMode=Normal');
 end;
 
@@ -58,10 +85,10 @@ begin
   end;
 end;
 
-constructor TConexaoFiredac.Create;
+Constructor TConexaoFiredac.Create(aConfiguracao : iConexaoConfiguracao);
 begin
   FConexao := TFDConnection.Create(nil);
-  ConfigurarConexao;
+  ConfigurarConexao(aConfiguracao);
 end;
 
 destructor TConexaoFiredac.Destroy;
@@ -76,9 +103,9 @@ begin
   FConexao.Connected := false;
 end;
 
-class function TConexaoFiredac.New: iConexao;
+class function TConexaoFiredac.New(aConfiguracao : iConexaoConfiguracao) : iConexao;
 begin
-  Result := Self.Create;
+  Result := Self.Create(aConfiguracao);
 end;
 
 end.

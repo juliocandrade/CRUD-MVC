@@ -9,11 +9,13 @@ type
   TConexaoFactory = class
   private
     FConexao : iConexao;
+    FConfiguracao : iConexaoConfiguracao;
     constructor Create;
   public
     class function GetInstance : TConexaoFactory;
 
     function Query : iQuery; overload;
+    function Configuracao : iConexaoConfiguracao;
   end;
 
 var
@@ -23,13 +25,20 @@ implementation
 
 uses
   crud_mvc.model.conexao.firedac.connection,
-  crud_mvc.model.conexao.firedac.query;
+  crud_mvc.model.conexao.firedac.query,
+  crud_mvc.model.conexao.configuracao;
 
 { TConexaoFactory }
 
+function TConexaoFactory.Configuracao: iConexaoConfiguracao;
+begin
+  Result := FConfiguracao;
+end;
+
 constructor TConexaoFactory.Create;
 begin
-  FConexao := TConexaoFiredac.New;
+  FConfiguracao := TConexaoConfiguracao.New;
+  FConexao := TConexaoFiredac.New(FConfiguracao);
 end;
 
 class function TConexaoFactory.GetInstance: TConexaoFactory;
