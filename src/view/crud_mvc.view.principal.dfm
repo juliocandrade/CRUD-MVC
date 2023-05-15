@@ -1,4 +1,4 @@
-object frmPrincipal: TfrmPrincipal
+﻿object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
   Caption = 'CRUD-MVC'
@@ -25,24 +25,19 @@ object frmPrincipal: TfrmPrincipal
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 8
-    ExplicitWidth = 784
-    ExplicitHeight = 505
     object pnlMenu: TPanel
       Left = 0
       Top = 57
-      Width = 100
+      Width = 121
       Height = 566
       Align = alLeft
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
-      ExplicitHeight = 448
       object btnPessoas: TSpeedButton
         Left = 0
         Top = 0
-        Width = 100
+        Width = 121
         Height = 80
         Align = alTop
         Caption = 'PESSOAS'
@@ -52,15 +47,15 @@ object frmPrincipal: TfrmPrincipal
         Font.Height = -13
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
-        Layout = blGlyphTop
         ParentFont = False
         OnClick = btnPessoasClick
         ExplicitTop = 128
+        ExplicitWidth = 100
       end
       object btnSair: TSpeedButton
         Left = 0
         Top = 486
-        Width = 100
+        Width = 121
         Height = 80
         Align = alBottom
         Caption = 'SAIR'
@@ -74,6 +69,25 @@ object frmPrincipal: TfrmPrincipal
         ParentFont = False
         OnClick = btnSairClick
         ExplicitTop = 8
+        ExplicitWidth = 100
+      end
+      object btnConfigurações: TSpeedButton
+        Left = 0
+        Top = 80
+        Width = 121
+        Height = 80
+        Align = alTop
+        Caption = 'CONFIGURA'#199#213'ES'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = btnConfiguraçõesClick
+        ExplicitTop = 152
+        ExplicitWidth = 100
       end
     end
     object pnlTop: TPanel
@@ -86,7 +100,6 @@ object frmPrincipal: TfrmPrincipal
       Padding.Left = 10
       ParentBackground = False
       TabOrder = 1
-      ExplicitWidth = 784
       object lblPage: TLabel
         Left = 10
         Top = 0

@@ -29,10 +29,6 @@ object frmPessoaEndereco: TfrmPessoaEndereco
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 8
-    ExplicitWidth = 672
-    ExplicitHeight = 337
     object pnlCadastroTop: TPanel
       Left = 0
       Top = 0
@@ -43,8 +39,6 @@ object frmPessoaEndereco: TfrmPessoaEndereco
       Padding.Left = 10
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 5
-      ExplicitTop = 5
       object lblPage: TLabel
         Left = 10
         Top = 0
@@ -75,9 +69,6 @@ object frmPessoaEndereco: TfrmPessoaEndereco
       Padding.Right = 20
       Padding.Bottom = 10
       TabOrder = 1
-      ExplicitLeft = 5
-      ExplicitTop = 5
-      ExplicitHeight = 267
       object pnlDados: TPanel
         Left = 20
         Top = 10
@@ -392,8 +383,6 @@ object frmPessoaEndereco: TfrmPessoaEndereco
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 5
-      ExplicitTop = 272
       object bntCancelar: TButton
         Left = 586
         Top = 0
@@ -401,7 +390,6 @@ object frmPessoaEndereco: TfrmPessoaEndereco
         Height = 73
         Align = alRight
         Caption = 'Cancelar'
-        ImageAlignment = iaTop
         ImageIndex = 1
         ImageMargins.Top = 10
         TabOrder = 1
@@ -414,7 +402,6 @@ object frmPessoaEndereco: TfrmPessoaEndereco
         Height = 73
         Align = alRight
         Caption = 'Salvar'
-        ImageAlignment = iaTop
         ImageIndex = 7
         ImageMargins.Top = 10
         TabOrder = 0

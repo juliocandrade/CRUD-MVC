@@ -26,7 +26,7 @@ object frmPessoas: TfrmPessoas
     Width = 668
     Height = 433
     Align = alClient
-    ActiveCard = cardCadastro
+    ActiveCard = cardPesquisa
     BevelOuter = bvNone
     Caption = 'PnlPrincipal'
     ParentBackground = False
@@ -55,7 +55,6 @@ object frmPessoas: TfrmPessoas
           Height = 73
           Align = alRight
           Caption = 'Cancelar'
-          ImageAlignment = iaTop
           ImageIndex = 1
           ImageMargins.Top = 10
           TabOrder = 1
@@ -68,7 +67,6 @@ object frmPessoas: TfrmPessoas
           Height = 73
           Align = alRight
           Caption = 'Salvar'
-          ImageAlignment = iaTop
           ImageIndex = 7
           ImageMargins.Top = 10
           TabOrder = 0
@@ -126,7 +124,6 @@ object frmPessoas: TfrmPessoas
             Padding.Left = 10
             Spacing = 4
             TabOrder = 1
-            ExplicitLeft = 324
             object Label6: TLabel
               Left = 10
               Top = 0
@@ -191,7 +188,6 @@ object frmPessoas: TfrmPessoas
             Padding.Right = 10
             Spacing = 4
             TabOrder = 0
-            ExplicitWidth = 324
             object Label5: TLabel
               Left = 0
               Top = 0
@@ -259,8 +255,6 @@ object frmPessoas: TfrmPessoas
             BevelOuter = bvNone
             Padding.Top = 5
             TabOrder = 1
-            ExplicitTop = 145
-            ExplicitWidth = 638
             object btnEnderecoExcluir: TButton
               Left = 184
               Top = 5
@@ -268,7 +262,6 @@ object frmPessoas: TfrmPessoas
               Height = 32
               Align = alLeft
               Caption = 'Excluir'
-              ImageAlignment = iaTop
               ImageIndex = 1
               ImageMargins.Top = 10
               TabOrder = 2
@@ -281,7 +274,6 @@ object frmPessoas: TfrmPessoas
               Height = 32
               Align = alLeft
               Caption = 'Incluir'
-              ImageAlignment = iaTop
               ImageIndex = 7
               ImageMargins.Top = 10
               TabOrder = 0
@@ -294,7 +286,6 @@ object frmPessoas: TfrmPessoas
               Height = 32
               Align = alLeft
               Caption = 'Alterar'
-              ImageAlignment = iaTop
               ImageIndex = 1
               ImageMargins.Top = 10
               TabOrder = 1
@@ -414,7 +405,6 @@ object frmPessoas: TfrmPessoas
           Height = 75
           Align = alRight
           Caption = 'Pesquisar'
-          ImageAlignment = iaTop
           ImageIndex = 5
           ImageMargins.Top = 10
           TabOrder = 1
@@ -447,7 +437,6 @@ object frmPessoas: TfrmPessoas
             Height = 27
             Align = alBottom
             TabOrder = 0
-            ExplicitTop = 34
           end
         end
       end
@@ -466,7 +455,6 @@ object frmPessoas: TfrmPessoas
           Height = 73
           Align = alRight
           Caption = 'Fechar'
-          ImageAlignment = iaTop
           ImageIndex = 3
           ImageMargins.Top = 10
           TabOrder = 3
@@ -479,7 +467,6 @@ object frmPessoas: TfrmPessoas
           Height = 73
           Align = alLeft
           Caption = 'Incluir'
-          ImageAlignment = iaTop
           ImageIndex = 4
           ImageMargins.Top = 10
           TabOrder = 0
@@ -492,7 +479,6 @@ object frmPessoas: TfrmPessoas
           Height = 73
           Align = alLeft
           Caption = 'Alterar'
-          ImageAlignment = iaTop
           ImageIndex = 0
           ImageMargins.Top = 10
           TabOrder = 1
@@ -505,7 +491,6 @@ object frmPessoas: TfrmPessoas
           Height = 73
           Align = alLeft
           Caption = 'Excluir'
-          ImageAlignment = iaTop
           ImageIndex = 2
           ImageMargins.Top = 10
           TabOrder = 2
@@ -538,7 +523,6 @@ object frmPessoas: TfrmPessoas
             Align = alRight
             Caption = 'Registros'
             Layout = tlCenter
-            ExplicitLeft = 633
             ExplicitHeight = 19
           end
         end

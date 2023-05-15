@@ -21,7 +21,9 @@ uses
   crud_mvc.view.pessoa.endereco in 'src\view\crud_mvc.view.pessoa.endereco.pas' {frmPessoaEndereco},
   crud_mvc.controller.endereco in 'src\controller\crud_mvc.controller.endereco.pas',
   crud_mvc.utilitarios.validators.attributes in 'src\utils\crud_mvc.utilitarios.validators.attributes.pas',
-  crud_mvc.utilitarios.validators.engine in 'src\utils\crud_mvc.utilitarios.validators.engine.pas';
+  crud_mvc.utilitarios.validators.engine in 'src\utils\crud_mvc.utilitarios.validators.engine.pas',
+  crud_mvc.model.conexao.configuracao in 'src\model\conexao\crud_mvc.model.conexao.configuracao.pas',
+  crud_mvc.view.configuracoes in 'src\view\crud_mvc.view.configuracoes.pas' {frmConfiguracoes};
 
 {$R *.res}
 
@@ -32,5 +34,6 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TfrmPessoas, frmPessoas);
   Application.CreateForm(TfrmPessoaEndereco, frmPessoaEndereco);
+  Application.CreateForm(TfrmConfiguracoes, frmConfiguracoes);
   Application.Run;
 end.

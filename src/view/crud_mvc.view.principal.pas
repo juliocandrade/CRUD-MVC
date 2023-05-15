@@ -14,9 +14,11 @@ type
     btnSair: TSpeedButton;
     pnlTop: TPanel;
     lblPage: TLabel;
+    btnConfigurações: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
     procedure btnPessoasClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnConfiguraçõesClick(Sender: TObject);
   private
     { Private declarations }
     procedure AplicarEstilo;
@@ -30,7 +32,7 @@ var
 implementation
 
 uses
-  crud_mvc.view.pessoas, crud_mvc.view.style;
+  crud_mvc.view.pessoas, crud_mvc.view.style, crud_mvc.view.configuracoes;
 
 {$R *.dfm}
 
@@ -55,6 +57,11 @@ end;
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
   AplicarEstilo;
+end;
+
+procedure TfrmPrincipal.btnConfiguraçõesClick(Sender: TObject);
+begin
+  frmConfiguracoes.Show
 end;
 
 end.
