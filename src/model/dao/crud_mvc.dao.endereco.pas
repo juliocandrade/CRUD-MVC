@@ -12,11 +12,12 @@ type
     FEndereco : TModelEndereco;
     FQuery : iQuery;
     procedure DatasetToEntity;
+    function GerarID : String;
   public
     constructor Create(aEntity : TModelEndereco);
     class function New(aEntity : TModelEndereco) : iDAOEndereco;
 
-    function Listar(IdPessoa : String) : iDAOEndereco; overload;
+    function Listar(IdPessoa : String) : iDAOEndereco;
     function ListarPorId(Id : String) : iDAOEndereco;
     function Excluir(Id : String) : iDAOEndereco;
     function Atualizar : iDAOEndereco;
@@ -27,7 +28,7 @@ type
 implementation
 
 uses
-  System.SysUtils, crud_mvc.model.conexao.factory;
+  System.SysUtils, crud_mvc.model.conexao.factory, crud_mvc.utilitarios;
 
 { TDAOEndereco }
 
@@ -36,12 +37,13 @@ begin
   Result := Self;
   try
     FQuery.sql.Clear;
-    FQuery.SQL.Add('UPDATE enderecos SET cep = :cep, logradouro = :logradouro, complemento = :complemento, bairro = :bairro , cidade = :cidade WHERE id = :id');
+    FQuery.SQL.Add('UPDATE enderecos SET cep = :cep, logradouro = :logradouro, complemento = :complemento, bairro = :bairro ,cidade = :cidade, uf = :uf WHERE id = :id');
     FQuery.Params('cep', FEndereco.Cep);
     FQuery.Params('logradouro', FEndereco.Logradouro);
     FQuery.Params('complemento', FEndereco.Complemento);
     FQuery.Params('cidade', FEndereco.Cidade);
     FQuery.Params('bairro', FEndereco.Bairro);
+    FQuery.Params('uf', FEndereco.Uf);
     FQuery.Params('id', FEndereco.id);
     FQuery.ExecSQL;
   except on e:Exception do
@@ -66,6 +68,7 @@ begin
   FEndereco.Logradouro := FQuery.DataSet.FieldByName('logradouro').AsString;
   FEndereco.Complemento := FQuery.DataSet.FieldByName('complemento').AsString;
   FEndereco.Cidade := FQuery.DataSet.FieldByName('cidade').AsString;
+  FEndereco.Uf := FQuery.DataSet.FieldByName('uf').AsString;
   FEndereco.Bairro := FQuery.DataSet.FieldByName('bairro').AsString;
   FEndereco.CreatedAt := FQuery.DataSet.FieldByName('created_at').AsDateTime;
 end;
@@ -89,12 +92,19 @@ begin
   end;
 end;
 
+function TDAOEndereco.GerarID: String;
+begin
+  Result := TUtilitarios.GerarID;
+end;
+
 function TDAOEndereco.Inserir: iDAOEndereco;
 begin
   Result := Self;
   try
+    FEndereco.Id := GerarID;
+
     FQuery.sql.Clear;
-    FQuery.SQL.Add('INSERT INTO enderecos (id, pessoa_id, cep, logradouro, complemento, bairro, cidade_id) VALUES (:id, :pessoa_id, :cep, :logradouro, :complemento, :bairro, :cidade_id)');
+    FQuery.SQL.Add('INSERT INTO enderecos (id, pessoa_id, cep, logradouro, complemento, bairro, cidade, uf) VALUES (:id, :pessoa_id, :cep, :logradouro, :complemento, :bairro, :cidade, :uf)');
     FQuery.Params('id', FEndereco.Id);
     FQuery.Params('pessoa_id', FEndereco.PessoaId);
     FQuery.Params('cep', FEndereco.Cep);
@@ -102,6 +112,7 @@ begin
     FQuery.Params('complemento', FEndereco.Complemento);
     FQuery.Params('bairro', FEndereco.Bairro);
     FQuery.Params('cidade', FEndereco.Cidade);
+    FQuery.Params('uf', FEndereco.Uf);
     FQuery.ExecSQL;
   except on e:Exception do
     raise Exception.Create(Format('Erro ao tentar atualizar o registro: %s', [e.Message]));
@@ -131,7 +142,7 @@ begin
   Result := Self;
   try
     FQuery.sql.Clear;
-    FQuery.SQL.Add('SELECT * WHERE id = :id');
+    FQuery.SQL.Add('SELECT * FROM enderecos WHERE id = :id');
     FQuery.Params('id', Id);
     FQuery.Open;
     DatasetToEntity;

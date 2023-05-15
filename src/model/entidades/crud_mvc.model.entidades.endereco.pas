@@ -12,6 +12,7 @@ type
     FCreatedAt: TDateTime;
     FComplemento: String;
     FCidade: String;
+    FUf: String;
     procedure SetBairro(const Value: String);
     procedure SetCep(const Value: String);
     procedure SetCidade(const Value: String);
@@ -20,6 +21,7 @@ type
     procedure SetId(const Value: String);
     procedure SetLogradouro(const Value: String);
     procedure SetPessoaId(const Value: String);
+    procedure SetUf(const Value: String);
   public
     property Id : String read FId write SetId;
     property PessoaId : String read FPessoaId write SetPessoaId;
@@ -28,6 +30,7 @@ type
     property Logradouro : String read FLogradouro write SetLogradouro;
     property Complemento : String read FComplemento write SetComplemento;
     property Cidade : String read FCidade write SetCidade;
+    property Uf : String read FUf write SetUf;
     property CreatedAt : TDateTime read FCreatedAt write SetCreatedAt;
   end;
 
@@ -73,6 +76,11 @@ end;
 procedure TModelEndereco.SetPessoaId(const Value: String);
 begin
   FPessoaId := Value;
+end;
+
+procedure TModelEndereco.SetUf(const Value: String);
+begin
+  FUf := Value;
 end;
 
 end.

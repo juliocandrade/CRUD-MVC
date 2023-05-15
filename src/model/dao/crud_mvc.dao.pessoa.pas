@@ -13,11 +13,13 @@ type
     FPessoa : TModelPessoa;
     FQuery : iQuery;
     procedure DatasetToEntity;
+    function GerarID : String;
   public
     constructor Create(aEntity : TModelPessoa);
     class function New(aEntity : TModelPessoa) : iDAOPessoa;
 
     function Listar : iDAOPessoa;overload;
+    function Listar(Criterio : String) : iDAOPessoa; overload;
     function ListarPorId(Id : String) : iDAOPessoa;
     function Excluir(Id : String) : iDAOPessoa;
     function Atualizar : iDAOPessoa;
@@ -28,7 +30,7 @@ type
 implementation
 
 uses
-  System.SysUtils, crud_mvc.model.conexao.factory;
+  System.SysUtils, crud_mvc.model.conexao.factory, crud_mvc.utilitarios;
 
 { TDAOPessoa }
 
@@ -87,10 +89,17 @@ begin
   end;
 end;
 
+function TDAOPessoa.GerarID: String;
+begin
+  Result := TUtilitarios.GerarID;
+end;
+
 function TDAOPessoa.Inserir: iDAOPessoa;
 begin
   Result := Self;
   try
+    FPessoa.Id := GerarID;
+
     FQuery.sql.Clear;
     FQuery.SQL.Add('INSERT INTO pessoas (id, nome, documento, email, telefone) VALUES (:id, :nome, :documento, :email, :telefone)');
     FQuery.Params('nome', FPessoa.nome);
@@ -100,7 +109,7 @@ begin
     FQuery.Params('id', FPessoa.Id);
     FQuery.ExecSQL;
   except on e:Exception do
-    raise Exception.Create(Format('Erro ao tentar atualizar o registro: %s', [e.Message]));
+    raise Exception.Create(Format('Erro ao tentar inserir o registro: %s', [e.Message]));
   end;
 end;
 
@@ -114,6 +123,16 @@ begin
   Result := Self;
   try
     FQuery.Open('SELECT * FROM pessoas');
+  except on e:Exception do
+    raise Exception.Create(Format('Erro ao realizar a consulta: %s', [e.Message]));
+  end;
+end;
+
+function TDAOPessoa.Listar(Criterio: String): iDAOPessoa;
+begin
+  Result := Self;
+  try
+    FQuery.Open(Format('SELECT * FROM pessoas WHERE 1 = 1%S',[Criterio]));
   except on e:Exception do
     raise Exception.Create(Format('Erro ao realizar a consulta: %s', [e.Message]));
   end;
