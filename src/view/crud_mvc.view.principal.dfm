@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 365
-  ClientWidth = 725
+  ClientHeight = 623
+  ClientWidth = 1010
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,98 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  WindowState = wsMaximized
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object pnlPrincipal: TPanel
+    Left = 0
+    Top = 0
+    Width = 1010
+    Height = 623
+    Align = alClient
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitLeft = 8
+    ExplicitTop = 8
+    ExplicitWidth = 784
+    ExplicitHeight = 505
+    object pnlMenu: TPanel
+      Left = 0
+      Top = 57
+      Width = 100
+      Height = 566
+      Align = alLeft
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 0
+      ExplicitHeight = 448
+      object btnPessoas: TSpeedButton
+        Left = 0
+        Top = 0
+        Width = 100
+        Height = 80
+        Align = alTop
+        Caption = 'PESSOAS'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Layout = blGlyphTop
+        ParentFont = False
+        OnClick = btnPessoasClick
+        ExplicitTop = 128
+      end
+      object btnSair: TSpeedButton
+        Left = 0
+        Top = 486
+        Width = 100
+        Height = 80
+        Align = alBottom
+        Caption = 'SAIR'
+        ImageIndex = 6
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = btnSairClick
+        ExplicitTop = 8
+      end
+    end
+    object pnlTop: TPanel
+      Left = 0
+      Top = 0
+      Width = 1010
+      Height = 57
+      Align = alTop
+      BevelOuter = bvNone
+      Padding.Left = 10
+      ParentBackground = False
+      TabOrder = 1
+      ExplicitWidth = 784
+      object lblPage: TLabel
+        Left = 10
+        Top = 0
+        Width = 1000
+        Height = 57
+        Align = alClient
+        Caption = 'CRUD-MVC'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Layout = tlCenter
+        ExplicitWidth = 90
+        ExplicitHeight = 19
+      end
+    end
+  end
 end
